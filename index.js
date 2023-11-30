@@ -19,12 +19,28 @@ const colorCode = document.getElementById('colorCode');
 // }
 
 function CopyHEX() {
-    var copyhexColor = document.getElementById("colorCode");
-    colorCode.select();
+    const colorText = colorBox.style.backgroundColor;
+    const hexcode = rgbToHex(colorText);
+    const tempInput = document.createElement("input");
+    document.body.appendChild(tempInput);
+    tempInput.value = hexcode;
+    tempInput.select();
     document.execCommand("copy");
-    document.getElementById("colorCode").innerHTML ="Copied the text: " + colorCode
-}
-
+    document.body.removeChild(tempInput);
+    alert("Color copied to clipboard successfully: " + hexcode);
+};
+function rgbToHex(rgbColor) {
+    const regex = /rgb\((\d+), (\d+), (\d+)\)/;
+    const matches = regex.exec(rgbColor);
+    const r = parseInt(matches[1]);
+    const g = parseInt(matches[2]);
+    const b = parseInt(matches[3]);
+    return "#" + componentToHex(r) + componentToHex(b) + componentToHex(g)
+};
+function componentToHex(c) {
+    const hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+};
 
 // function CopyHEX() {
 //     var Text = document.getElementById('colorCode') 
